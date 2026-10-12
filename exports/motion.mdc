@@ -1,0 +1,51 @@
+---
+description: motion — animation by code, done beautifully and professionally: craft (durations, easing, springs, choreography, slop list) + all web animation stacks (CSS/WAAPI/GSAP/Motion/SVG/Canvas/WebGL/Lottie/Rive) + 30 dual-stack recipes with hard a11y/perf rules. Apply when animating anything on the web, choosing an animation technology, fixing jank or easing, building scroll effects or page transitions, or reviewing motion quality.
+globs:
+alwaysApply: true
+---
+
+# motion (Cursor rules export)
+
+The condensed form of the `motion` skill — the full skill lives at github.com/lucasgabrieldevgg/motion; this file carries the operating rules.
+
+## The motion contract
+
+1. Every animation answers a purpose: feedback, continuity, orientation, hierarchy, or rationed delight. Otherwise cut.
+2. Composite-only per frame: `transform` + `opacity`. Layout properties never animate; shadows/blurs animate as cross-faded pseudo-element opacity.
+3. Duration bands: micro 100–250ms · UI 200–300ms · page 300–500ms · nothing user-waits-on > 500ms · scroll/ambient is progress-based.
+4. Enter eases out, exit eases in, exit is shorter and subtler. Scroll-scrub is `linear`; `linear` on UI state is a defect.
+5. `prefers-reduced-motion` is tiered, never a kill switch: Tier 1 (parallax, large slides, 3D, marquees, smooth-scroll, custom cursor) removed; Tier 2 (small movement) → ≤200ms fade; Tier 3 (opacity, color, focus rings, spinners) kept. JS-driven motion gated via `matchMedia` — CSS alone never covers timelines/canvas.
+6. Never ship unverified: freeze-frame screenshots of start/mid/end, both motion paths.
+
+## The craft core
+
+- Frequency law: 1000×/day → 100ms opacity; 1×/ever → 600ms choreography.
+- Easing library: snappy `(0.2,0,0,1)` · enter `(0.16,1,0.3,1)` · exit `(0.55,0,1,0.45)` · overshoot `(0.34,1.56,0.64,1)` · move `(0.4,0,0.2,1)`.
+- Springs (Motion): snappy 400/30 · tactile 500/30 · bouncy 300/12–18 · drag-follow 800+/35–40. Springs ignore duration.
+- Stagger: 30–80ms/item, 2–4 items mid-flight, total ≤ 400ms in waiting contexts. CSS: `calc(sibling-index() * 60ms)`.
+- One director: one primary motion at a time; page declares a motion budget.
+- State continuity: loading→success is one object morphing, not jump cuts.
+- Slop death list: perpetual loops · same fade-up everywhere · `scale(0)` · linear UI easing · bounce-everything · parallax on text · >1 marquee · glow/blob motion · unpauseable autoplay · `transition: all` · scroll-hijack without escape · hover that moves the click target · animation after content is readable.
+
+## Technology choice
+
+State pair → CSS `transition`. Appear/disappear → `@starting-style` + `allow-discrete`. Scroll-driven → `animation-timeline` in `@supports` (content visible by default). Page/route → View Transitions API. Sequence/pin/cinematic scrub → GSAP + ScrollTrigger (`ease: "none"` on containers, `quickTo` for followers, `useGSAP` in React). React state/exit/shared-layout/drag → Motion (`AnimatePresence` + stable `key`; `stagger()` not deprecated `staggerChildren`; `MotionConfig reducedMotion="user"`). Layout change → FLIP or Motion `layout`. Icon draw/morph → SVG (`pathLength="1"` trick; MorphSVG/flubber for mismatched). Particles → Canvas (DPR-aware, loop pauses offscreen, never starts under reduce). 3D/shaders → three/R3F (dispose, DPR ≤ 2, gate loop). AE animation → Lottie dotLottie (`setFrame` for scroll). Interactive state machines → Rive.
+
+## Integration rules
+
+- Values are tokens: `--dur-*`, `--ease-*`, one stagger value. Two durations + three easings cover 90%.
+- Batch DOM reads, then writes — interleaved reads/writes are layout thrashing.
+- `will-change` just-in-time, removed when idle.
+- Animations never change layout (CLS 0): containers reserve final space.
+- Keyboard/screen-reader parity: state never lives only in the animation; focus indicators survive every frame.
+- Smooth-scroll libs never instantiate under reduce. Autoplay > 5s needs a visible pause.
+- Verify: `?t=`/`?state=`/`?reduce=1` freeze harness + Playwright screenshots both paths; DevTools Performance shows no per-frame Layout/Paint.
+
+## Final gate
+
+> Could a reviewer freeze any frame, see intent — and does the reduced-motion path still communicate everything without teleporting anyone?
+
+If not, it's not done. Motion ships at *physical and verified* — not at *plausible*.
+
+---
+Sources & attribution: this export condenses the `motion` skill (github.com/lucasgabrieldevgg/motion), an original synthesis (MIT) merging AThevon/genjutsu (MIT), iart-ai/web-animation-skills (MIT), greensock/gsap-skills (MIT), 199-biotechnologies/motion-dev-animations-skill (MIT), agiwhitelist/auteur (MIT), oil-oil/oil-motion (MIT, driver-taxonomy concept), scriptscrypt/animation-reverse-engineering (unlicensed, method concepts, credited), and frankxai/awesome-motion-design-agent-skills (CC, discovery aid). npm versions live-verified 2026-10-13. Full credits: ATTRIBUTION.md in the repo.

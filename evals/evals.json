@@ -1,0 +1,35 @@
+{
+  "skill_name": "motion",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our SaaS landing page feels dead. Add motion that makes it feel premium — hero, feature grid, testimonials, footer. Don't make it tacky.",
+      "expected_output": "Follows craft-first flow: declares a motion budget (hero stagger = the one signature moment; everything else working motion), applies frequency law and duration bands, uses the easing library values as tokens. Hero: split-text or blur-in reveal 400-600ms enter easing. Feature grid: staggered reveal 40-60ms/item with once-only observer. Testimonials: subtle reveal or nothing. Footer: nothing (zero-cost respect for the frequency law). All reveals composite-only (opacity/transform), content visible by default (progressive enhancement), tiered reduced-motion (grid becomes plain fade or static), CLS 0 (final space reserved), freeze-frame screenshots both paths before shipping. Explicitly refuses: perpetual floating animations, same fade-up on every section, parallax on testimonial text.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Build a settings panel for my React dashboard: animated toggle switches, an accordion for advanced options, and a toast when settings save. We use framer-motion already.",
+      "expected_output": "Motion (framer-motion) track: toggles with spring (stiffness 500, damping 30, overshoot feel via damping 12-18 only if playful), keyboard-operable (role=switch, aria-checked, state never lives in the animation). Accordion with height animation (animate height auto, overflow clip) or grid 0fr->1fr vanilla path; one open at a time. Toast with AnimatePresence mode=popLayout, stable keys, exit shorter than enter (asymmetry law). MotionConfig reducedMotion=user wraps the panel; toggle animation reduces to near-instant state change, accordion to instant, toast to short fade. Perf: transform/opacity only; no setState in onUpdate; no layout prop on items with animating border-radius without counter-scaling.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "My animation is janky as hell — a card grid where hovering a card grows it from 200px to 260px wide and the shadow gets bigger. Frame rate tanks on my laptop.",
+      "expected_output": "Diagnoses the property-cost problem: animating width = layout+paint every frame; animating box-shadow = repaint of a large blurred region. Fixes: width -> transform scaleX (visual only) OR FLIP (if real size change needed) OR Motion layout prop (auto-FLIP); shadow -> ::after pseudo-element holding the full shadow, animate its opacity. Adds will-change just-in-time (on hover approach, removed on leave), verifies in DevTools Performance that frames show no Layout/Paint bands, and confirms 4x CPU throttle holds up. Also checks reduced-motion guard exists on the hover.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Recreate this animation I saw on a landing page: https://... (screen recording of a text sweep with staggered reverse-order characters and a blur feather, then a spring settle)",
+      "expected_output": "Runs the reverse-engineering pipeline instead of eyeballing: classifies as timeline choreography (time-driven), acquires and probes the video, tiles a contact sheet, extracts frame stacks of the moving region, measures stagger order (reverse-index), feather count, easing from frame deltas. Ports with measured constants (comments citing which measurement each encodes), framer-motion or GSAP per project stack, verifies by driving the port to the same states and screenshotting against the dissected frames, documents deliberate deviations. Includes reduced-motion path (whole-word fade) and notes the ethics line: study technique, don't clone branded identity 1:1.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Add a cinematic scroll experience to our product story page: pinned scenes, parallax, a horizontal journey through the roadmap, progress indicator.",
+      "expected_output": "Chooses GSAP + ScrollTrigger (sequence/pin/scrub = its lane): one pinned scene max 2 viewports, horizontal section with containerAnimation (ease: none on container, child triggers linked), parallax on layers only (never reading text), scroll progress bar via transform scaleX (CSS animation-timeline where supported with @supports gate + visible default). Declares motion budget: the pinned journey is THE moment. Reduced motion: full Tier 1 removal - no pin, vertical native scroll, static composition, progress bar kept as orientation. Perf: scrub 1, invalidateOnRefresh + function values for resize, batch ScrollTrigger.batch for mass reveals, 4x CPU throttle test, pin only what's needed, ScrollTrigger.refresh() only on real layout change.",
+      "files": []
+    }
+  ]
+}
