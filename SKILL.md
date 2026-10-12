@@ -66,3 +66,7 @@ Rule of thumb: if one `@keyframes` plus one `animation-timeline` can express it,
 - AI-generated video assets and sprite-atlas pipelines (a media-production problem, not UI motion).
 - Whole-site art direction and design systems (the sibling design skills' job) — this skill animates what they design.
 - Video editing, Remotion-style rendered films, and Manim math animations.
+
+## Sources
+
+This skill is an original synthesis (MIT) merging upstream skills — `AThevon/genjutsu` (MIT), `iart-ai/web-animation-skills` (MIT), `greensock/gsap-skills` (official, MIT), `199-biotechnologies/motion-dev-animations-skill` (MIT), `agiwhitelist/auteur` (MIT), `oil-oil/oil-motion` (MIT, driver-taxonomy concept), `scriptscrypt/animation-reverse-engineering` (credited method source), plus discovery via `frankxai/awesome-motion-design-agent-skills` (CC0). All recipes are original dual-stack implementations; npm versions live-verified. Full credits and licenses: `ATTRIBUTION.md`.

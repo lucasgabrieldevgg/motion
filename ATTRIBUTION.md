@@ -13,7 +13,7 @@
 | `agiwhitelist/auteur` | Motion-related anti-slop bans (same fade-up per section, transition:all, scale(0), scroll listeners, >1 marquee), the motion-budget concept, the motionqa gate concept that shaped the quality gate | MIT |
 | `oil-oil/oil-motion` | Driver taxonomy (scroll/pointer/drag/touch/orientation/audio/data/state + scrub/segment-play/autonomous) — concept only; its media-generation pipeline is out of scope and not merged | MIT |
 | `scriptscrypt/animation-reverse-engineering` | The reverse-engineering method: species classification, acquire→dissect→port→verify pipeline, measure-don't-guess easing, reference discovery sources (60fps.design, Mobbin), the ethics line | No LICENSE file in the upstream repo — public-source skill; credited here as a merged method source. If the author specifies a license, this table updates |
-| `frankxai/awesome-motion-design-agent-skills` | Discovery aid (landscape index of motion skills); no content merged | CC (see upstream repo) |
+| `frankxai/awesome-motion-design-agent-skills` | Discovery aid (landscape index of motion skills); no content merged | CC0 1.0 (the list) |
 
 ## Original verification work
 
